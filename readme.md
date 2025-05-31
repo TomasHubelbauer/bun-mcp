@@ -817,3 +817,5 @@ save for the future.
 
 - [ ] Consider including updated to-do list in responses to avoid user asking to
       see the updated list all the time
+- [ ] Try using `.github/copilot-instructions.md` to avoid Copilot making the
+      `TODO.md` file instead of calling the MCP server
