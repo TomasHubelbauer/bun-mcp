@@ -4,6 +4,8 @@ The goal of this repository is to prototype an [MCP (model context protocol)](ht
 server using the [Bun](https://bun.sh) runtime and use its tools through the VS
 Code Copilot chat agent mode.
 
+![A screen recording showing the resulting MCP server in action](demo.gif)
+
 I started off by reading though the Model Context Protocol documentation.
 In the nomenclature of the MCP documentation, these will be the elements we use:
 
