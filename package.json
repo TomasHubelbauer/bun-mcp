@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "latest",
+    "zod": "latest"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  }
+}

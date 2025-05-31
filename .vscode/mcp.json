@@ -1,0 +1,9 @@
+{
+  "servers": {
+    "to-do": {
+      "type": "stdio",
+      "command": "bun",
+      "args": ["${workspaceFolder}", "${workspaceFolder}"]
+    }
+  }
+}
