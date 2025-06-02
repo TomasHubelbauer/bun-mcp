@@ -847,3 +847,6 @@ chat and can be used to steer the agent towards the desired behavior.
 
 I've used it to force the agent to always name the items in sentence case and
 list the updated list after every mutation.
+
+Updated to this file are picked up by the next prompt send to GitHub Copilot, it
+just needs to be saved, no need to refresh it it any other way.
