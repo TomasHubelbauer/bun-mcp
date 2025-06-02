@@ -819,3 +819,21 @@ save for the future.
       see the updated list all the time
 - [ ] Try using `.github/copilot-instructions.md` to avoid Copilot making the
       `TODO.md` file instead of calling the MCP server
+
+## Tips
+
+Use the Cmd+Shift+P command palette entry called Chat: Clear All Workspace Chats
+to reset the GitHub Copilot conversation to make sure prior context is not taken
+into an account when putting in a new standalone prompt.
+
+## Notes
+
+These are the types of prompts that I have found work well to invoke the `to-do`
+MCP with GitHub Copilot chat in agent mode and using the OpenAI GPT-4.1 model.
+
+- "Create a new to-do item to…"
+- "Make a new to-do for…"
+- "Remind me to…"
+- "Note to…"
+
+I am positively surprised at the short ones!
