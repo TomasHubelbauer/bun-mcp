@@ -815,21 +815,15 @@ This brings the basic behavior to completion.
 There was many ways in which this toy MCP server could be improved which I will
 save for the future.
 
-- [ ] Consider including updated to-do list in responses to avoid user asking to
-      see the updated list all the time
-- [ ] Try using `.github/copilot-instructions.md` to avoid Copilot making the
-      `TODO.md` file instead of calling the MCP server
+---
 
-## Tips
-
-Use the Cmd+Shift+P command palette entry called Chat: Clear All Workspace Chats
-to reset the GitHub Copilot conversation to make sure prior context is not taken
-into an account when putting in a new standalone prompt.
-
-## Notes
+Upon returning to this demo yet again, I have discovered the LLM can be smart
+enough to associate even short prompts with the MCP server tools at times.
 
 These are the types of prompts that I have found work well to invoke the `to-do`
 MCP with GitHub Copilot chat in agent mode and using the OpenAI GPT-4.1 model.
+
+These work without `.github/copilot-instructions.md`! (More on that below.)
 
 - "Create a new to-do item to…"
 - "Make a new to-do for…"
@@ -837,3 +831,19 @@ MCP with GitHub Copilot chat in agent mode and using the OpenAI GPT-4.1 model.
 - "Note to…"
 
 I am positively surprised at the short ones!
+I was not able to reproduce the issue where it would bypass the MCP server and
+make a `TODO.md` file itself from before even when resetting the chat history.
+
+On the note of resetting the chat history, to get a sense of how a prompt would
+be handled with no prior context:
+
+Use the Cmd+Shift+P command palette entry called Chat: Clear All Workspace Chats
+to reset the GitHub Copilot conversation to make sure prior context is not taken
+into an account when putting in a new standalone prompt.
+
+I've also discovered the existence of the `.github/copilot-instructions.md` file
+which embeds extra repository-level context to every prompt / GitHub Copilot
+chat and can be used to steer the agent towards the desired behavior.
+
+I've used it to force the agent to always name the items in sentence case and
+list the updated list after every mutation.
