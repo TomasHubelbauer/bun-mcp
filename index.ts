@@ -1,5 +1,5 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
+import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/streamableHttp.js";
 import { z } from "zod";
 import Bun from "bun";
 
@@ -157,5 +157,12 @@ server.tool(
   }
 );
 
-const transport = new StdioServerTransport();
+const transport = new StreamableHTTPServerTransport({
+  sessionIdGenerator: undefined,
+});
+
+// TODO: Add Node HTTP server here and use `transport.handleRequest`
+// Note that `Bun.serve` cannot be used here as its `request` and `response`
+// types are not compatible with the MCP server transport.
+
 await server.connect(transport);

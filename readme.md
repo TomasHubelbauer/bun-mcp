@@ -16,7 +16,7 @@ For this setup, the documentation has a specific learning path:
 
 [For Server Developers](https://modelcontextprotocol.io/quickstart/server)
 
-MCP servers work by exposing tools which are aking to REST endpoints and the LLM
+MCP servers work by exposing tools which are akin to REST endpoints and the LLM
 used by the MCP client can invoked these tools if it determines the user prompt
 could benefit from data this tools are able to provide.
 
@@ -850,3 +850,21 @@ list the updated list after every mutation.
 
 Updated to this file are picked up by the next prompt send to GitHub Copilot, it
 just needs to be saved, no need to refresh it it any other way.
+
+## HTTP Streamable Transport
+
+So far this repository has implemented standard I/O transport.
+To change it over to HTTP transport, the `StreamableHTTPServerTransport`
+transport implementation can be used.
+There's also `SSEServerTransport` when planning to use Server-Sent Events.
+
+I changed the code over, but a part is missing.
+A separate HTTP server needs to be run and `handleRequest` be used.
+Its signature is compatible only with Node server:
+
+https://nodejs.org/api/http.html#class-httpserver
+
+`Bun.serve` cannot be used as its `request` and `response` types are not
+compatible:
+
+https://bun.sh/docs/api/http
