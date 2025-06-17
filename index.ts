@@ -160,6 +160,7 @@ mcpServer.tool(
 
 const transport = new StreamableHTTPServerTransport({
   sessionIdGenerator: undefined,
+  enableJsonResponse: true, // Enable JSON response mode
 });
 
 await mcpServer.connect(transport);
