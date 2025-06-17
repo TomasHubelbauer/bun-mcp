@@ -875,3 +875,15 @@ the `test-server.sh` Bash file.
 I also tested it manually by updating `.github/mcp.json` to use the HTTP-based
 transport and using VS Code GitHub Copilot agent to ask it about TODO-related
 stuff and verifying it kept using the right tools and updated `TODO.md`.
+
+I later found out the `StreamableHTTPServerTransport` defaults to SSE but this
+is different from `SSEServerTransport`.
+I wanted JSON transport to make the Bash script for testing the MCP exchange
+easier to test with `jq` so I turned on `enableJsonResponse` which switches from
+SSE to JSON.
+
+I asked Claude Code to research the differences between SSE in the streamable
+HTTP transport and the SSE transport and it concluded that `SSEServerTransport`
+is an old standard which was superseded by `StreamableHTTPServerTransport` which
+still defaults to SSE, but can fall back to JSON mode, which is more useful for
+my testing here.
