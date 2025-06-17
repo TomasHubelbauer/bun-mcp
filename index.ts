@@ -1,7 +1,8 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/streamableHttp.js";
 import { z } from "zod";
-import Bun from "bun";
+import { file, write } from "bun";
+import { createServer } from "http";
 
 if (!process.argv[2]) {
   throw new Error(
@@ -11,7 +12,7 @@ if (!process.argv[2]) {
 
 process.chdir(process.argv[2]);
 
-const server = new McpServer({
+const mcpServer = new McpServer({
   name: "to-do",
   version: "0.0.0",
   capabilities: {
@@ -22,8 +23,8 @@ const server = new McpServer({
 const FILE_NAME = "TODO.md";
 
 async function readTodos() {
-  const text = (await Bun.file(FILE_NAME).exists())
-    ? await Bun.file(FILE_NAME).text()
+  const text = (await file(FILE_NAME).exists())
+    ? await file(FILE_NAME).text()
     : "";
 
   const lines = text.split("\n").filter((line) => line.trim() !== "");
@@ -38,10 +39,10 @@ async function writeTodos(todos: Awaited<ReturnType<typeof readTodos>>) {
   const content = todos
     .map((todo) => `- [${todo.isChecked ? "x" : " "}] ${todo.name}`)
     .join("\n");
-  await Bun.write(FILE_NAME, content);
+  await write(FILE_NAME, content);
 }
 
-server.tool(
+mcpServer.tool(
   "list-todos",
   "Lists all to-do items in the TODO.md file",
   async () => {
@@ -60,7 +61,7 @@ server.tool(
   }
 );
 
-server.tool(
+mcpServer.tool(
   "add-todo",
   "Adds a new to-do item to the TODO.md file",
   {
@@ -83,7 +84,7 @@ server.tool(
   }
 );
 
-server.tool(
+mcpServer.tool(
   "toggle-todo",
   "Toggles the completion status of a to-do item",
   {
@@ -121,7 +122,7 @@ server.tool(
   }
 );
 
-server.tool(
+mcpServer.tool(
   "remove-todo",
   "Removes a to-do item from the TODO.md file",
   {
@@ -161,8 +162,30 @@ const transport = new StreamableHTTPServerTransport({
   sessionIdGenerator: undefined,
 });
 
-// TODO: Add Node HTTP server here and use `transport.handleRequest`
+await mcpServer.connect(transport);
+
 // Note that `Bun.serve` cannot be used here as its `request` and `response`
 // types are not compatible with the MCP server transport.
+const httpServer = createServer(async (request, response) => {
+  if (request.method !== "POST") {
+    response.writeHead(404);
+    response.end();
+    return;
+  }
 
-await server.connect(transport);
+  const chunks: Buffer[] = [];
+  for await (const chunk of request) {
+    chunks.push(chunk);
+  }
+
+  await transport.handleRequest(
+    request,
+    response,
+    JSON.parse(Buffer.concat(chunks).toString())
+  );
+});
+
+const PORT = 3000;
+httpServer.listen(PORT, () => {
+  console.log(`MCP server listening on http://localhost:${PORT}`);
+});

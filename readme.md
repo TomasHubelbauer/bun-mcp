@@ -868,3 +868,10 @@ https://nodejs.org/api/http.html#class-httpserver
 compatible:
 
 https://bun.sh/docs/api/http
+
+I let Claude Code implement the Node server and make a test for it in form of
+the `test-server.sh` Bash file.
+
+I also tested it manually by updating `.github/mcp.json` to use the HTTP-based
+transport and using VS Code GitHub Copilot agent to ask it about TODO-related
+stuff and verifying it kept using the right tools and updated `TODO.md`.

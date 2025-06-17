@@ -1,9 +1,14 @@
 {
   "servers": {
+    // "to-do": {
+    //   "type": "stdio",
+    //   "command": "bun",
+    //   "args": ["${workspaceFolder}", "${workspaceFolder}"]
+    // },
     "to-do": {
-      "type": "stdio",
-      "command": "bun",
-      "args": ["${workspaceFolder}", "${workspaceFolder}"]
+      // Note that `bun . .` must be ran in the Integrated Terminal before the
+      // MCP server becomes addressable.
+      "url": "http://localhost:3000"
     }
   }
 }
